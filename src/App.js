@@ -75,6 +75,148 @@ const Footer = () => {
 }
 
 const App = () => {
+  const pickups = [
+      {
+          field: 'Village Park',
+          address: '6161 S Jasper Way, Centennial, C0 80016',
+          time: '12pm',
+          day: 'Sunday',
+          contact: 'Jordan W. Alves'
+      },
+      {
+          field: 'Inifinity Park',
+          address: '4599 E Tennessee Ave',
+          time: '5:30pm',
+          day: 'Friday',
+          contact: 'Edgar Barajas',
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO  80111',
+          time: '2pm',
+          day: 'Saturday',
+          contact: 'George Young',
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO  80111',
+          time: '12pm',
+          day: 'Thursday',
+          contact: 'Raul Belman',
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO  80111',
+          time: '12pm',
+          day: 'Tuesday',
+          contact: 'Raul Belman',
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO  80111',
+          time: '12pm',
+          day: 'Friday',
+          contact: 'Raul Belman',
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO  80111',
+          time: '1pm',
+          day: 'Sunday',
+          contact: '',
+      },
+      {
+          field: 'Cranmer Park',
+          address: '4300 E Third Ave, Denver, CO 80220',
+          time: '10am',
+          day: 'Sunday',
+          contact: 'Christopher Wood',
+      },
+      {
+          field: 'Garfield Lake Park',
+          address: '3600 W Mississippi ave, denver, CO, 80219',
+          time: '11am',
+          day: 'Saturday',
+          contact: 'Ben Medina',
+      },
+      {
+          field: 'Garfield Lake Park',
+          address: '3600 W Mississippi ave, denver, CO, 80219',
+          time: '4:30pm',
+          day: 'Friday',
+          contact: 'Aric Peterson',
+      },
+      {
+          field: 'Barnum Park',
+          address: '360 Hooker St, Denver, CO  80219 United States',
+          time: '8:30am',
+          day: 'Saturday',
+          contact: 'Grant Wilhelmson',
+      },
+      {
+          field: 'Tierra Park',
+          address: '14601 E Jewell ave, Aurora, CO 80012',
+          time: '9am',
+          day: 'Saturday',
+          contact: 'Sergio David Lopez',
+      },
+      {
+          field: 'Village Park',
+          address: '6161 S Jasper Way, Centennial, C0 80016',
+          time: '12pm',
+          day: 'Saturday',
+          contact: 'Zim Green',
+      },
+      {
+          field: 'Garfield Lake Park',
+          address: '3600 W Mississippi ave, denver, CO, 80219',
+          time: '12pm',
+          day: 'Sunday',
+          contact: 'Cody Peyton',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5:30pm',
+          day: 'Tuesday',
+          contact: 'Tasia Poinsatte',
+      },
+      {
+          field: 'Barnum East Park',
+          address: '500 Federal Blvd',
+          time: '8am',
+          day: 'Saturday',
+          contact: 'Grant Wilhelmson',
+      },
+      {
+          field: 'Barnum East Park',
+          address: '500 Federal Blvd',
+          time: '9am',
+          day: 'Sunday',
+          contact: 'Grant Wilhelmson',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5pm,',
+          day: 'MWF',
+          contact: '',
+      },
+      {
+          field: 'Broomfield Commons Williams Field ',
+          address: '13200 Sheridan Blvd, Broomfield, CO  80020',
+          time: '9am',
+          day: 'Saturday',
+          contact: 'Luis Ramos, Logan Ross',
+      },
+      {
+          field: 'Aspen View Academy',
+          address: '2131 Low Meadow Blvd Castle Rock, CO  80109 ',
+          time: '9am',
+          day: 'Saturday',
+          contact: '',
+      },
+  ]
   return (
       <div className="has-text-centered landing">
         <Navbar/>
@@ -85,12 +227,7 @@ const App = () => {
 
         <div className="header container">
             <div className="columns is-multiline is-mobile">
-                <PickupCard field={'village greens park'} day={'Saturday'} time={'8am'} address={'2131 Low Meadow Blvd Castle Rock, CO  80109'} contact={'Grant Wilhelmson'}/>
-                <PickupCard field={'village greens park'} day={'Saturday'} time={'8am'} address={'2131 Low Meadow Blvd Castle Rock, CO  80109'} contact={'Grant Wilhelmson'}/>
-                <PickupCard field={'village greens park'} day={'Saturday'} time={'8am'} address={'2131 Low Meadow Blvd Castle Rock, CO  80109'} contact={'Grant Wilhelmson'}/>
-                <PickupCard field={'village greens park'} day={'Saturday'} time={'8am'} address={'2131 Low Meadow Blvd Castle Rock, CO  80109'} contact={'Grant Wilhelmson'}/>
-                <PickupCard field={'village greens park'} day={'Saturday'} time={'8am'} address={'2131 Low Meadow Blvd Castle Rock, CO  80109'} contact={'Grant Wilhelmson'}/>
-                <PickupCard field={'village greens park'} day={'Saturday'} time={'8am'} address={'2131 Low Meadow Blvd Castle Rock, CO  80109'} contact={'Grant Wilhelmson'}/>
+                { pickups.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>) }
             </div>
         </div>
 
