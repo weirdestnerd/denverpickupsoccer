@@ -24,3 +24,7 @@ code {
   flex-grow: 1;
   flex-direction: column;
 }
+
+.svg_icon {
+  height:2em;
+}
