@@ -68,7 +68,11 @@ const Footer = () => {
             <p>
                 <strong>Made by </strong>
                 <a href='https://linkedin.com/in/oludavid' target='_blank' rel="noopener noreferrer nofollow">
-                    <span className='has-text-success'>Olu</span>
+                    <span className='has-text-success'>Olu </span>
+                </a>
+		&
+		<a href='https://linkedin.com/in/mnaparstek' target='_blank' rel="noopener noreferrer nofollow">
+                    <span className='has-text-success'> Martin</span>
                 </a>
             </p>
         </div>
