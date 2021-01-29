@@ -310,10 +310,6 @@ const App = () => {
       <div className="has-text-centered landing">
         <Navbar/>
 
-        <div className="notification is-warning">
-          More updates to come: <strong>filter by</strong> day, time, field, or neighbourhood, <strong>sort by</strong> day or time, <strong>add new pickup</strong>, <strong>change pickup time</strong>, and more!
-        </div>
-
         {renderPickups()}
 
         <Footer />
