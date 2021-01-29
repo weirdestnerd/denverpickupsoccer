@@ -1,5 +1,9 @@
 import Logo from './logo.png';
 import FacebookLogo from './fb_icon.svg';
+import { DateTime, Settings } from 'luxon'
+
+Settings.defaultZoneName = 'America/Denver'
+
 
 const Navbar = () => {
   return <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -42,7 +46,7 @@ const PickupCard = ({ field, day, time, address, contact }) => {
                                     <div className="level-item has-text-centered">
                                         <div>
                                             <p className="heading">Contact</p>
-                                            <p className="subtitle is-size-5-mobile">{contact}</p>
+                                            <p className="subtitle is-size-5-mobile">{contact || 'No contact'}</p>
                                         </div>
                                     </div>
                                 </nav>
@@ -86,8 +90,12 @@ const Footer = () => {
     </footer>
 }
 
+const HeadingBanner = ({ text }) => {
+  return <h1 className="is-size-2 is-size-4-mobile has-background-white-ter has-text-left p-4 m-1 is-capitalized">{text}</h1>
+}
+
 const App = () => {
-  const pickups = [
+    const PICKUPS = [
       {
           field: 'Village Park',
           address: '6161 S Jasper Way, Centennial, C0 80016',
@@ -211,7 +219,21 @@ const App = () => {
           field: 'City Park',
           address: '2001 Colorado Blvd, Denver, CO, 80205',
           time: '5pm,',
-          day: 'MWF',
+          day: 'Monday',
+          contact: '',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5pm,',
+          day: 'Wednesday',
+          contact: '',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5pm,',
+          day: 'Friday',
           contact: '',
       },
       {
@@ -229,19 +251,70 @@ const App = () => {
           contact: '',
       },
   ]
+    const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+    const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
+      const firstDay = firstPickup.day
+      const secondDay = secondPickup.day
+      // The next two line would make sure that Saturday is before Sunday.
+      // In the case where we want to sort three pickups that are on [Friday, Saturday, Sunday],
+      // we compare first two and result with Friday before Saturday. Then we compare the next two
+      // and we should get Saturday before Sunday. Without the next two lines, the default
+      // comparison that's based on the index of days in WEEKDAYS would result in Sunday before Saturday.
+      if (firstDay === 'Saturday' && secondDay === 'Sunday') return -1
+      if (firstDay === 'Sunday' && secondDay === 'Saturday') return 1
+      return WEEKDAYS.indexOf(firstDay) - WEEKDAYS.indexOf(secondDay)
+    }
+
+    const renderPickupsByDayOfTheWeek = (weekday) => {
+      const pickupsHappeningOnDay = PICKUPS.filter(pickup => pickup.day === weekday)
+      if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
+      return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
+    }
+
+    const renderPickupsNotHappeningOnDays = (weekdays) => {
+      const pickupsNotHappeningOnDays = PICKUPS.sort(comparePickupsByDaysOfTheWeek).filter(pickup => !weekdays.includes(pickup.day))
+      if (pickupsNotHappeningOnDays.length === 0) return <p>No pickups</p>
+      return pickupsNotHappeningOnDays.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
+    }
+
+    const renderPickups = () => {
+      const today = WEEKDAYS[DateTime.local().weekday]
+      const tomorrow = WEEKDAYS[DateTime.local().plus({ days: 1 }).weekday]
+
+      return (
+          <>
+            <HeadingBanner text="Happening today"/>
+            <section className="container section">
+              <div className="columns is-multiline is-mobile">
+                  {renderPickupsByDayOfTheWeek(today)}
+              </div>
+            </section>
+            <HeadingBanner text="Happening tomorrow"/>
+            <section className="container section">
+              <div className="columns is-multiline is-mobile">
+                  {renderPickupsByDayOfTheWeek(tomorrow)}
+              </div>
+            </section>
+            <HeadingBanner text="Happening other days"/>
+            <section className="container section">
+              <div className="columns is-multiline is-mobile">
+                  {renderPickupsNotHappeningOnDays([today, tomorrow])}
+              </div>
+            </section>
+          </>
+      )
+    }
+
   return (
       <div className="has-text-centered landing">
         <Navbar/>
 
-          <div className="notification is-warning">
-              More updates to come: <strong>filter by</strong> day, time, field, or neighbourhood, <strong>sort by</strong> day or time, <strong>add new pickup</strong>, <strong>change pickup time</strong>, and more!
-          </div>
-
-        <div className="header container">
-            <div className="columns is-multiline is-mobile">
-                { pickups.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>) }
-            </div>
+        <div className="notification is-warning">
+          More updates to come: <strong>filter by</strong> day, time, field, or neighbourhood, <strong>sort by</strong> day or time, <strong>add new pickup</strong>, <strong>change pickup time</strong>, and more!
         </div>
+
+        {renderPickups()}
 
         <Footer />
       </div>
