@@ -1,9 +1,10 @@
 import Logo from './logo.png';
 import FacebookLogo from './fb_icon.svg';
 import { DateTime, Settings } from 'luxon'
+import { useState } from 'react';
+import classNames from 'classnames';
 
 Settings.defaultZoneName = 'America/Denver'
-
 
 const Navbar = () => {
   return <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -82,7 +83,7 @@ const Footer = () => {
         </div>
         <div className='level-item has-text-centered'>
             <a href="https://www.facebook.com/groups/denverpickupsoccer/?__cft__[0]=AZV9jHuReRSAM-1Lkx50LDVO_vG2l3k4ietNdFSJGJEmQDOV6U3uSZRlmobsUQjOCaFj9_BjxbtXM1K734fDT5Us8DyZcjgJ1U3c17g8q2lIkvT2qyTjvW1K7Vx-ecMPk2kfttwQQiG3W_qYIRz7i_LXD5Lb9Z5pqWFbktUGjmA7o_2hCXHrYW3ThbmWv_IkOOA&amp;__tn__=-UC%2CP-R">
-                For More Games Follow: Denver Pick-Up Soccer 
+                For More Games Follow: Denver Pick-Up Soccer
                 <img className="facebook_icon" src={FacebookLogo} alt='Facebook Icon' />
             </a>
             {/* <span className="icon"><i className="fab fa-facebook-square fa-lg"></i></span> */}
@@ -94,8 +95,51 @@ const HeadingBanner = ({ text }) => {
   return <h1 className="is-size-2 is-size-4-mobile has-background-white-ter has-text-left p-4 m-1 is-capitalized">{text}</h1>
 }
 
+const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
+  const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+  const selectDay = (day) => {
+    setFilterByDay(day)
+  }
+
+  const unselectDay = () => {
+    setFilterByDay(null)
+  }
+
+  const toggleButton = (e) => {
+    const selectedDay = e.target.value
+    if (selectedDay === filterByDay) return unselectDay()
+    return selectDay(selectedDay)
+  }
+
+  const renderButtonForDays = () => {
+    return (
+        DAYS.map((day, index) =>
+            <button
+                className={classNames('button day-filter is-rounded mx-1', { 'is-primary': day === filterByDay})}
+                onClick={toggleButton}
+                value={day}
+                key={index}
+            >
+              {day}
+            </button>
+        )
+    )
+  }
+
+  return (
+      <>
+        <hr className='horizontal-line'/>
+        <section className="is-horizontal-scrollable">
+          {renderButtonForDays()}
+        </section>
+        <hr className='horizontal-line'/>
+      </>
+  )
+}
+
 const App = () => {
-    const PICKUPS = [
+  const PICKUPS = [
       {
           field: 'Village Park',
           address: '6161 S Jasper Way, Centennial, C0 80016',
@@ -250,67 +294,84 @@ const App = () => {
           day: 'Saturday',
           contact: '',
       },
-  ]
-    const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+]
+  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-    const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
-      const firstDay = firstPickup.day
-      const secondDay = secondPickup.day
-      // The next two line would make sure that Saturday is before Sunday.
-      // In the case where we want to sort three pickups that are on [Friday, Saturday, Sunday],
-      // we compare first two and result with Friday before Saturday. Then we compare the next two
-      // and we should get Saturday before Sunday. Without the next two lines, the default
-      // comparison that's based on the index of days in WEEKDAYS would result in Sunday before Saturday.
-      if (firstDay === 'Saturday' && secondDay === 'Sunday') return -1
-      if (firstDay === 'Sunday' && secondDay === 'Saturday') return 1
-      return WEEKDAYS.indexOf(firstDay) - WEEKDAYS.indexOf(secondDay)
-    }
+  const [filterByDay, setFilterByDay] = useState(null)
 
-    const renderPickupsByDayOfTheWeek = (weekday) => {
-      const pickupsHappeningOnDay = PICKUPS.filter(pickup => pickup.day === weekday)
-      if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
-      return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
-    }
+  const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
+    const firstDay = firstPickup.day
+    const secondDay = secondPickup.day
+    // The next two line would make sure that Saturday is before Sunday.
+    // In the case where we want to sort three pickups that are on [Friday, Saturday, Sunday],
+    // we compare first two and result with Friday before Saturday. Then we compare the next two
+    // and we should get Saturday before Sunday. Without the next two lines, the default
+    // comparison that's based on the index of days in WEEKDAYS would result in Sunday before Saturday.
+    if (firstDay === 'Saturday' && secondDay === 'Sunday') return -1
+    if (firstDay === 'Sunday' && secondDay === 'Saturday') return 1
+    return WEEKDAYS.indexOf(firstDay) - WEEKDAYS.indexOf(secondDay)
+  }
 
-    const renderPickupsNotHappeningOnDays = (weekdays) => {
-      const pickupsNotHappeningOnDays = PICKUPS.sort(comparePickupsByDaysOfTheWeek).filter(pickup => !weekdays.includes(pickup.day))
-      if (pickupsNotHappeningOnDays.length === 0) return <p>No pickups</p>
-      return pickupsNotHappeningOnDays.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
-    }
+  const renderPickupsByDayOfTheWeek = (weekday) => {
+    const pickupsHappeningOnDay = PICKUPS.filter(pickup => pickup.day === weekday)
+    if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
+    return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
+  }
 
-    const renderPickups = () => {
-      const today = WEEKDAYS[DateTime.local().weekday]
-      const tomorrow = WEEKDAYS[DateTime.local().plus({ days: 1 }).weekday]
+  const renderPickupsNotHappeningOnDays = (weekdays) => {
+    const pickupsNotHappeningOnDays = PICKUPS.sort(comparePickupsByDaysOfTheWeek).filter(pickup => !weekdays.includes(pickup.day))
+    if (pickupsNotHappeningOnDays.length === 0) return <p>No pickups</p>
+    return pickupsNotHappeningOnDays.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
+  }
 
+  const renderPickups = (filterByDay) => {
+    const today = WEEKDAYS[DateTime.local().weekday]
+    const tomorrow = WEEKDAYS[DateTime.local().plus({ days: 1 }).weekday]
+
+    if (filterByDay) {
       return (
           <>
-            <HeadingBanner text="Happening today"/>
+            <HeadingBanner text={`Showing pickups for ${filterByDay}`}/>
             <section className="container section">
               <div className="columns is-multiline is-mobile">
-                  {renderPickupsByDayOfTheWeek(today)}
-              </div>
-            </section>
-            <HeadingBanner text="Happening tomorrow"/>
-            <section className="container section">
-              <div className="columns is-multiline is-mobile">
-                  {renderPickupsByDayOfTheWeek(tomorrow)}
-              </div>
-            </section>
-            <HeadingBanner text="Happening other days"/>
-            <section className="container section">
-              <div className="columns is-multiline is-mobile">
-                  {renderPickupsNotHappeningOnDays([today, tomorrow])}
+                {renderPickupsByDayOfTheWeek(filterByDay)}
               </div>
             </section>
           </>
       )
     }
 
+    return (
+        <>
+          <HeadingBanner text="Happening today"/>
+          <section className="container section">
+            <div className="columns is-multiline is-mobile">
+                {renderPickupsByDayOfTheWeek(today)}
+            </div>
+          </section>
+          <HeadingBanner text="Happening tomorrow"/>
+          <section className="container section">
+            <div className="columns is-multiline is-mobile">
+                {renderPickupsByDayOfTheWeek(tomorrow)}
+            </div>
+          </section>
+          <HeadingBanner text="Happening other days"/>
+          <section className="container section">
+            <div className="columns is-multiline is-mobile">
+                {renderPickupsNotHappeningOnDays([today, tomorrow])}
+            </div>
+          </section>
+        </>
+    )
+  }
+
   return (
       <div className="has-text-centered landing">
         <Navbar/>
 
-        {renderPickups()}
+        <FilterByDayOfWeek filterByDay={filterByDay} setFilterByDay={setFilterByDay} />
+
+        {renderPickups(filterByDay)}
 
         <Footer />
       </div>
