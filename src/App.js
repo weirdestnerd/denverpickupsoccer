@@ -130,7 +130,7 @@ const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
   return (
       <>
         <hr className='horizontal-line'/>
-        <section className="is-horizontal-scrollable">
+        <section className="is-horizontal-scrollable centered">
           {renderButtonForDays()}
         </section>
         <hr className='horizontal-line'/>
