@@ -46,7 +46,7 @@ const PickupCard = ({ field, day, time, address, contact }) => {
                                     <div className="level-item has-text-centered">
                                         <div>
                                             <p className="heading">Contact</p>
-                                            <p className="subtitle is-size-5-mobile">{contact || 'No contact'}</p>
+                                            <p className="subtitle is-size-5-mobile">{contact || 'N/A'}</p>
                                         </div>
                                     </div>
                                 </nav>
