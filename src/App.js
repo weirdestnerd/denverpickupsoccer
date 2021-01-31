@@ -1,7 +1,7 @@
-import Navbar from './Navbar';
-import HeadingBanner from './HeadingBanner';
-import PickupCard from './PickupCard';
-import Footer from './Footer';
+import Navbar from './components/Navbar';
+import HeadingBanner from './components/HeadingBanner';
+import PickupCard from './components/PickupCard';
+import Footer from './components/Footer';
 import { DateTime, Settings } from 'luxon'
 
 Settings.defaultZoneName = 'America/Denver'
