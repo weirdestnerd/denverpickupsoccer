@@ -28,3 +28,13 @@ code {
 .facebook_icon {
   height:2em;
 }
+
+.is-horizontal-scrollable {
+  display: flex;
+  overflow-x: auto;
+}
+
+.centered {
+  margin: auto;
+  display: block;
+}
