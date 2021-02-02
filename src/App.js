@@ -98,7 +98,7 @@ const App = () => {
     const PICKUPS = [
       {
           field: 'Village Park',
-          address: '6161 S Jasper Way, Centennial, C0, 80016',
+          address: '6161 S Jasper Way, Centennial, CO, 80016',
           time: '12:00 pm',
           day: 'Sunday',
           contact: 'Jordan W. Alves'
@@ -154,14 +154,14 @@ const App = () => {
       },
       {
           field: 'Garfield Lake Park',
-          address: '3600 W Mississippi Ave, denver, CO, 80219',
+          address: '3600 W Mississippi Ave, Denver, CO, 80219',
           time: '11:00 am',
           day: 'Saturday',
           contact: 'Ben Medina',
       },
       {
           field: 'Garfield Lake Park',
-          address: '3600 W Mississippi Ave, denver, CO, 80219',
+          address: '3600 W Mississippi Ave, Denver, CO, 80219',
           time: '4:30 pm',
           day: 'Friday',
           contact: 'Aric Peterson',
