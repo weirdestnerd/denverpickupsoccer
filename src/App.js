@@ -167,6 +167,7 @@ const App = () => {
           time: '12:00 pm',
           day: 'Thursday',
           contact: 'Raul Belman',
+          hidden: true,
       },
       {
           field: 'Village Greens Park',
@@ -174,6 +175,7 @@ const App = () => {
           time: '12:00 pm',
           day: 'Tuesday',
           contact: 'Raul Belman',
+          hidden: true,
       },
       {
           field: 'Village Greens Park',
@@ -181,6 +183,7 @@ const App = () => {
           time: '12:00 pm',
           day: 'Friday',
           contact: 'Raul Belman',
+          hidden: true,
       },
       {
           field: 'Village Greens Park',
@@ -313,13 +316,13 @@ const App = () => {
   }
 
   const renderPickupsByDayOfTheWeek = (weekday) => {
-    const pickupsHappeningOnDay = PICKUPS.filter(pickup => pickup.day === weekday)
+    const pickupsHappeningOnDay = PICKUPS.filter(pickup => (pickup.day === weekday) && !pickup.hidden)
     if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
     return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
   }
 
   const renderPickupsNotHappeningOnDays = (weekdays) => {
-    const pickupsNotHappeningOnDays = PICKUPS.sort(comparePickupsByDaysOfTheWeek).filter(pickup => !weekdays.includes(pickup.day))
+    const pickupsNotHappeningOnDays = PICKUPS.sort(comparePickupsByDaysOfTheWeek).filter(pickup => !weekdays.includes(pickup.day) && !pickup.hidden)
     if (pickupsNotHappeningOnDays.length === 0) return <p>No pickups</p>
     return pickupsNotHappeningOnDays.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
   }
