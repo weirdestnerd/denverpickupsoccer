@@ -1,99 +1,12 @@
-import Logo from './logo.png';
-import FacebookLogo from './fb_icon.svg';
+import Navbar from './components/Navbar';
+import HeadingBanner from './components/HeadingBanner';
+import PickupCard from './components/PickupCard';
+import Footer from './components/Footer';
 import { DateTime, Settings } from 'luxon'
 import { useState } from 'react';
 import classNames from 'classnames';
 
 Settings.defaultZoneName = 'America/Denver'
-
-const Navbar = () => {
-  return <nav className="navbar" role="navigation" aria-label="main navigation">
-    <div className="navbar-brand">
-      <a className="navbar-item" href="/#">
-        <img src={Logo}
-             alt="logo" width="150"
-             height="30" />
-      </a>
-    </div>
-  </nav>
-}
-
-const PickupCard = ({ field, day, time, address, contact }) => {
-    return (
-        <div className="column is-full">
-            <div className="card">
-                <header className="card-header has-text-centered">
-                    <p className="card-header-title is-capitalized">
-                        {field}
-                    </p>
-                </header>
-                <div className="card-content">
-                    <div className="content">
-                        <section>
-                            <div className="container">
-                                <nav className="level is-mobile">
-                                    <div className="level-item has-text-centered">
-                                        <div>
-                                            <p className="heading">Day</p>
-                                            <p className="subtitle capitalize is-size-5-mobile">{day}</p>
-                                        </div>
-                                    </div>
-                                    <div className="level-item has-text-centered">
-                                        <div>
-                                            <p className="heading">Time</p>
-                                            <p className="subtitle is-size-5-mobile">{time}</p>
-                                        </div>
-                                    </div>
-                                    <div className="level-item has-text-centered">
-                                        <div>
-                                            <p className="heading">Contact</p>
-                                            <p className="subtitle is-size-5-mobile">{contact || 'N/A'}</p>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
-                        </section>
-                        <hr className='horizontal-line'/>
-                        <section className="">
-                            <p className="has-text-left is-size-5">Address: {address}</p>
-                        </section>
-                    </div>
-                </div>
-                {/*<footer className="card-footer">*/}
-                {/*    <a href="#" className="card-footer-item">Request Change</a>*/}
-                {/*</footer>*/}
-            </div>
-        </div>
-    )
-}
-
-const Footer = () => {
-    return <footer className='footer level'>
-        <div className='level-item has-text-centered'>
-            <p>
-                <strong>Made by </strong>
-                <a href='https://linkedin.com/in/oludavid' target='_blank' rel="noopener noreferrer nofollow">
-                    <span className='has-text-success'>Olu </span>
-                </a>
-		&
-		<a href='https://linkedin.com/in/mnaparstek' target='_blank' rel="noopener noreferrer nofollow">
-                    <span className='has-text-success'> Martin</span>
-                </a>
-            </p>
-        </div>
-        <div className='level-item has-text-centered'>
-            <a href="https://www.facebook.com/groups/denverpickupsoccer/?__cft__[0]=AZV9jHuReRSAM-1Lkx50LDVO_vG2l3k4ietNdFSJGJEmQDOV6U3uSZRlmobsUQjOCaFj9_BjxbtXM1K734fDT5Us8DyZcjgJ1U3c17g8q2lIkvT2qyTjvW1K7Vx-ecMPk2kfttwQQiG3W_qYIRz7i_LXD5Lb9Z5pqWFbktUGjmA7o_2hCXHrYW3ThbmWv_IkOOA&amp;__tn__=-UC%2CP-R">
-                For More Games Follow: Denver Pick-Up Soccer
-                <img className="facebook_icon" src={FacebookLogo} alt='Facebook Icon' />
-            </a>
-            {/* <span className="icon"><i className="fab fa-facebook-square fa-lg"></i></span> */}
-        </div>
-    </footer>
-}
-
-const HeadingBanner = ({ text }) => {
-  return <h1 className="is-size-2 is-size-4-mobile has-background-white-ter has-text-left p-4 m-1 is-capitalized">{text}</h1>
-}
 
 const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
