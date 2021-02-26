@@ -11,7 +11,7 @@ Settings.defaultZoneName = 'America/Denver'
 const Search = ({searchTerm, handleChange}) => {
     
     return(
-      <div class="field">
+      <div className="field">
         {/* <p class="control">
           <span class="select">
             <select>
@@ -20,8 +20,8 @@ const Search = ({searchTerm, handleChange}) => {
             </select>
           </span>
         </p> */}
-        <p class="control">
-          <input class="input is-round"
+        <p className="control">
+          <input className="input is-round"
             type='text'
             placeholder='Search'
             value = {searchTerm}
@@ -266,10 +266,15 @@ const App = () => {
     return WEEKDAYS.indexOf(firstDay) - WEEKDAYS.indexOf(secondDay)
   }
 
-  const renderPickupsByDayOfTheWeek = (weekday) => {
-    const pickupsHappeningOnDay = PICKUPS.filter(pickup => (pickup.day === weekday) && !pickup.hidden)
-    if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
-    return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
+  const renderPickupsByDayOfTheWeek = (weekday, search) => {
+    if (weekday && search) { 
+      const pickupsHappeningOnDay = searchResults.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
+      return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
+    } else { 
+      const pickupsHappeningOnDay = PICKUPS.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
+      if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
+      return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
+    }
   }
 
   const renderPickupsNotHappeningOnDays = (weekdays) => {
@@ -281,7 +286,19 @@ const App = () => {
   const renderPickups = (filterByDay) => {
     const today = WEEKDAYS[DateTime.local().weekday]
     const tomorrow = WEEKDAYS[DateTime.local().plus({ days: 1 }).weekday]
-
+    if (filterByDay && searchTerm) {
+      return (
+        <>
+            <HeadingBanner text={`Showing pickups for ${filterByDay}`}/>
+            <section className="container section">
+              <div className="columns is-multiline is-mobile">
+                {renderPickupsByDayOfTheWeek(filterByDay, searchResults)}
+              </div>
+            </section>
+          </>
+      )
+    }
+    
     if (filterByDay) {
       return (
           <>
@@ -295,15 +312,18 @@ const App = () => {
       )
     }
 
-    if (searchResults) {
+    if (searchTerm) {
       return (
-        <section className="container section">
-          <div className="columns is-multiline is-mobile">
-            {searchResults.map(pickup => (
-              <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>
-            ))}
-          </div>
-        </section>
+        <>
+          <HeadingBanner text={`Showing pickups for ${searchTerm}`}/>
+          <section className="container section">
+            <div className="columns is-multiline is-mobile">
+              {searchResults.map(pickup => (
+                <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>
+              ))}
+            </div>
+          </section>
+        </>
       )
     }
 
