@@ -264,7 +264,7 @@ const App = () => {
     return pickupSearchHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
   }
   
-  const renderPickupsByDayOfTheWeek = (weekday, search) => {
+  const renderPickupsByDayOfTheWeek = (weekday) => {
     const pickupsHappeningOnDay = PICKUPS.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
     if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
     return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
