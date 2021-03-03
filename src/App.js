@@ -237,8 +237,9 @@ const App = () => {
     let results = PICKUPS.filter(pickup => {
       // we want to return true when at least one attribute match
       for (let property in pickup) {
-        var pickupData = pickup[property];
-        if ((typeof pickupData !== 'boolean') && (pickupData.toLowerCase().includes(searchTerm.toLowerCase()))) return true;
+        let attribute = pickup[property]
+        let attributeIsSubsetOfSearchTerm = attribute.toLowerCase().includes(searchTerm.toLowerCase())
+        if ((typeof attribute !== 'boolean') && (attributeIsSubsetOfSearchTerm)) return true;
       }
     });
     setSearchResults(results);
