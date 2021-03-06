@@ -58,7 +58,7 @@ const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
 
   return (
       <>
-        <div class="control">
+        <div className="control">
           {renderButtonForDays()}
         </div>
       </>
@@ -233,16 +233,21 @@ const App = () => {
   const handleSearchTermChange = event => {
     setSearchTerm(event.target.value);
   };
-  useEffect(() => {
+
+  const renderSearch = () => {
     let results = PICKUPS.filter(pickup => {
-      // we want to return true when at least one attribute match
       for (let property in pickup) {
-        let attribute = pickup[property]
-        let attributeIsSubsetOfSearchTerm = attribute.toLowerCase().includes(searchTerm.toLowerCase())
+        let attribute = pickup[property];
+        let attributeIsSubsetOfSearchTerm = attribute.toString().toLowerCase().includes(searchTerm.toLowerCase()); 
         if ((typeof attribute !== 'boolean') && (attributeIsSubsetOfSearchTerm)) return true;
       }
-    });
-    setSearchResults(results);
+      return false;
+    })
+    return results;
+  }
+
+  useEffect(() => {
+    setSearchResults(renderSearch());
   }, [searchTerm]);
 
   const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
