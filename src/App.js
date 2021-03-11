@@ -3,7 +3,7 @@ import HeadingBanner from './components/HeadingBanner';
 import PickupCard from './components/PickupCard';
 import Footer from './components/Footer';
 import { DateTime, Settings } from 'luxon'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 
 Settings.defaultZoneName = 'America/Denver'
@@ -229,27 +229,19 @@ const App = () => {
 
   const [filterByDay, setFilterByDay] = useState(null)
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const handleSearchTermChange = event => {
     setSearchTerm(event.target.value);
   };
-
-  const renderSearch = () => {
-    let results = PICKUPS.filter(pickup => {
-      for (let property in pickup) {
-        let attribute = pickup[property];
-        let attributeIsSubsetOfSearchTerm = attribute.toString().toLowerCase().includes(searchTerm.toLowerCase()); 
-        if ((typeof attribute !== 'boolean') && (attributeIsSubsetOfSearchTerm)) return true;
-      }
-      return false;
-    })
-    return results;
-  }
-
-  useEffect(() => {
-    setSearchResults(renderSearch());
-  }, [searchTerm]);
-
+  
+  const filteredPickups = PICKUPS.filter(pickup => {
+    for (let property in pickup) {
+      let attribute = pickup[property];
+      let attributeIsSubsetOfSearchTerm = attribute.toString().toLowerCase().includes(searchTerm.toLowerCase()); 
+      if ((typeof attribute !== 'boolean') && (attributeIsSubsetOfSearchTerm)) return true;
+    }
+    return false;
+  });
+  
   const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
     const firstDay = firstPickup.day
     const secondDay = secondPickup.day
@@ -264,7 +256,7 @@ const App = () => {
   }
 
   const renderSearchResultsByDayOfTheWeek = (weekday, search) => {
-    const pickupSearchHappeningOnDay = searchResults.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
+    const pickupSearchHappeningOnDay = search.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
     if (pickupSearchHappeningOnDay.length === 0) return <p>No pickups</p>
     return pickupSearchHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
   }
@@ -290,7 +282,7 @@ const App = () => {
             <HeadingBanner text={`Showing pickups for ${searchTerm} on ${filterByDay}`}/>
             <section className="container section">
               <div className="columns is-multiline is-mobile">
-                {renderSearchResultsByDayOfTheWeek(filterByDay, searchResults)}
+                {renderSearchResultsByDayOfTheWeek(filterByDay, filteredPickups)}
               </div>
             </section>
           </>
@@ -316,7 +308,7 @@ const App = () => {
           <HeadingBanner text={`Showing pickups for ${searchTerm}`}/>
           <section className="container section">
             <div className="columns is-multiline is-mobile">
-              {searchResults.map(pickup => (
+              {filteredPickups.map(pickup => (
                 <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>
               ))}
             </div>
