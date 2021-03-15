@@ -1,8 +1,9 @@
 import Logo from './logo.png';
 import FacebookLogo from './fb_icon.svg';
 import { DateTime, Settings } from 'luxon'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import {api} from 'services/api';
 
 Settings.defaultZoneName = 'America/Denver'
 
@@ -301,6 +302,12 @@ const App = () => {
   const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
   const [filterByDay, setFilterByDay] = useState(null)
+
+  useEffect(() => {
+    api()
+    .then(console.log)
+    .catch(console.error)
+  })
 
   const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
     const firstDay = firstPickup.day
