@@ -357,7 +357,8 @@ const App = () => {
 
   useEffect(() => {
     api()
-    .then(console.log)
+    .then(response => response.json())
+    .then(data => console.log(data))
     .catch(console.error)
   })
 

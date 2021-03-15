@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.set('port', port)
 
 router.get('/api', (request, response) => {
-  response.send("This is the beginning")
+  response.send({ message: "This is the beginning" })
 })
 
 app.listen(port, () => console.log(`App listening at port ${port}`))
