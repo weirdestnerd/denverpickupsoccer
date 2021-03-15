@@ -3,8 +3,9 @@ import HeadingBanner from './components/HeadingBanner';
 import PickupCard from './components/PickupCard';
 import Footer from './components/Footer';
 import { DateTime, Settings } from 'luxon'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import {api} from 'services/api';
 
 Settings.defaultZoneName = 'America/Denver'
 
@@ -353,6 +354,12 @@ const App = () => {
     }
     return false;
   });
+
+  useEffect(() => {
+    api()
+    .then(console.log)
+    .catch(console.error)
+  })
 
   const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
     const firstDay = firstPickup.day
