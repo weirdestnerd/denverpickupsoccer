@@ -24,6 +24,7 @@ const Search = ({searchTerm, handleSearchTermChange}) => {
 }
   
 // COMPONENT Buttons to filter through weekdays
+// TEST COMMENT 
 const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
