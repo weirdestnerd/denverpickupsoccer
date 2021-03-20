@@ -23,7 +23,7 @@ const Search = ({searchTerm, handleSearchTermChange}) => {
   )
 }
   
-// TEST COMMENT by Martin  
+// TEST COMMENT by Martin  mod 8:51 PM MT
 // COMPONENT Buttons to filter through weekdays
 const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
