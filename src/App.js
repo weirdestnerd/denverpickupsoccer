@@ -42,12 +42,27 @@ const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
 
   return (
       <>
-        <hr className='horizontal-line'/>
+        <hr className='control'/>
         <section className="is-horizontal-scrollable centered">
           {renderButtonForDays()}
         </section>
         <hr className='horizontal-line'/>
       </>
+  )
+}
+
+const Search = ({searchTerm, handleSearchTermChange}) => {
+  return(
+      <div className="field">
+        <p className="control">
+          <input className="input is-round"
+                 type='text'
+                 placeholder='Search Anything!'
+                 value = {searchTerm}
+                 onChange = {handleSearchTermChange}
+          />
+        </p>
+      </div>
   )
 }
 
@@ -214,6 +229,20 @@ const App = () => {
   const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
   const [filterByDay, setFilterByDay] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchTermChange = event => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredPickups = PICKUPS.filter(pickup => {
+    for (let property in pickup) {
+      let attribute = pickup[property];
+      let attributeIsSubsetOfSearchTerm = attribute.toString().toLowerCase().includes(searchTerm.toLowerCase());
+      if ((typeof attribute !== 'boolean') && (attributeIsSubsetOfSearchTerm)) return true;
+    }
+    return false;
+  });
 
   const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
     const firstDay = firstPickup.day
@@ -226,6 +255,12 @@ const App = () => {
     if (firstDay === 'Saturday' && secondDay === 'Sunday') return -1
     if (firstDay === 'Sunday' && secondDay === 'Saturday') return 1
     return WEEKDAYS.indexOf(firstDay) - WEEKDAYS.indexOf(secondDay)
+  }
+
+  const renderSearchResultsByDayOfTheWeek = (weekday, search) => {
+    const pickupSearchHappeningOnDay = search.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
+    if (pickupSearchHappeningOnDay.length === 0) return <p>No pickups</p>
+    return pickupSearchHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
   }
 
   const renderPickupsByDayOfTheWeek = (weekday) => {
@@ -243,6 +278,34 @@ const App = () => {
   const renderPickups = (filterByDay) => {
     const today = WEEKDAYS[DateTime.local().weekday]
     const tomorrow = WEEKDAYS[DateTime.local().plus({ days: 1 }).weekday]
+
+    if (filterByDay && searchTerm) {
+      return (
+          <>
+            <HeadingBanner text={`Showing pickups for ${searchTerm} on ${filterByDay}`}/>
+            <section className="container section">
+              <div className="columns is-multiline is-mobile">
+                {renderSearchResultsByDayOfTheWeek(filterByDay, filteredPickups)}
+              </div>
+            </section>
+          </>
+      )
+    }
+
+    if (searchTerm) {
+      return (
+          <>
+            <HeadingBanner text={`Showing pickups for ${searchTerm}`}/>
+            <section className="container section">
+              <div className="columns is-multiline is-mobile">
+                {filteredPickups.map(pickup => (
+                    <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>
+                ))}
+              </div>
+            </section>
+          </>
+      )
+    }
 
     if (filterByDay) {
       return (
@@ -284,8 +347,16 @@ const App = () => {
   return (
       <div className="has-text-centered landing">
         <Navbar/>
-
-        <FilterByDayOfWeek filterByDay={filterByDay} setFilterByDay={setFilterByDay} />
+        <hr className='horizontal-line'/>
+        <section className="centered">
+          <Search searchTerm={searchTerm}
+                  handleSearchTermChange={handleSearchTermChange}/>
+          <div className="field is-grouped is-horizontal-scrollable">
+            <FilterByDayOfWeek filterByDay={filterByDay}
+                               setFilterByDay={setFilterByDay}/>
+          </div>
+        </section>
+        <hr className='horizontal-line'/>
 
         {renderPickups(filterByDay)}
 
