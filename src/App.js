@@ -3,27 +3,11 @@ import HeadingBanner from './components/HeadingBanner';
 import PickupCard from './components/PickupCard';
 import Footer from './components/Footer';
 import { DateTime, Settings } from 'luxon'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 
 Settings.defaultZoneName = 'America/Denver'
 
-const Search = ({searchTerm, handleSearchTermChange}) => {
-  return(
-    <div className="field">
-      <p className="control">
-        <input className="input is-round"
-          type='text'
-          placeholder='Search Anything!'
-          value = {searchTerm}
-          onChange = {handleSearchTermChange}
-        />
-      </p>
-    </div>
-  )
-}
-  
-// COMPONENT Buttons to filter through weekdays
 const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -58,9 +42,11 @@ const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
 
   return (
       <>
-        <div class="control">
+        <hr className='horizontal-line'/>
+        <section className="is-horizontal-scrollable centered">
           {renderButtonForDays()}
-        </div>
+        </section>
+        <hr className='horizontal-line'/>
       </>
   )
 }
@@ -228,22 +214,6 @@ const App = () => {
   const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
   const [filterByDay, setFilterByDay] = useState(null)
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const handleSearchTermChange = event => {
-    setSearchTerm(event.target.value);
-  };
-  useEffect(() => {
-    let results = PICKUPS.filter(pickup => {
-      // we want to return true when at least one attribute match
-      for (let property in pickup) {
-        let attribute = pickup[property]
-        let attributeIsSubsetOfSearchTerm = attribute.toLowerCase().includes(searchTerm.toLowerCase())
-        if ((typeof attribute !== 'boolean') && (attributeIsSubsetOfSearchTerm)) return true;
-      }
-    });
-    setSearchResults(results);
-  }, [searchTerm]);
 
   const comparePickupsByDaysOfTheWeek = (firstPickup, secondPickup) => {
     const firstDay = firstPickup.day
@@ -258,14 +228,8 @@ const App = () => {
     return WEEKDAYS.indexOf(firstDay) - WEEKDAYS.indexOf(secondDay)
   }
 
-  const renderSearchResultsByDayOfTheWeek = (weekday, search) => {
-    const pickupSearchHappeningOnDay = searchResults.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
-    if (pickupSearchHappeningOnDay.length === 0) return <p>No pickups</p>
-    return pickupSearchHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
-  }
-  
   const renderPickupsByDayOfTheWeek = (weekday) => {
-    const pickupsHappeningOnDay = PICKUPS.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
+    const pickupsHappeningOnDay = PICKUPS.filter(pickup => (pickup.day === weekday) && !pickup.hidden)
     if (pickupsHappeningOnDay.length === 0) return <p>No pickups</p>
     return pickupsHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
   }
@@ -279,19 +243,7 @@ const App = () => {
   const renderPickups = (filterByDay) => {
     const today = WEEKDAYS[DateTime.local().weekday]
     const tomorrow = WEEKDAYS[DateTime.local().plus({ days: 1 }).weekday]
-    if (filterByDay && searchTerm) {
-      return (
-        <>
-            <HeadingBanner text={`Showing pickups for ${searchTerm} on ${filterByDay}`}/>
-            <section className="container section">
-              <div className="columns is-multiline is-mobile">
-                {renderSearchResultsByDayOfTheWeek(filterByDay, searchResults)}
-              </div>
-            </section>
-          </>
-      )
-    }
-    
+
     if (filterByDay) {
       return (
           <>
@@ -302,21 +254,6 @@ const App = () => {
               </div>
             </section>
           </>
-      )
-    }
-
-    if (searchTerm) {
-      return (
-        <>
-          <HeadingBanner text={`Showing pickups for ${searchTerm}`}/>
-          <section className="container section">
-            <div className="columns is-multiline is-mobile">
-              {searchResults.map(pickup => (
-                <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>
-              ))}
-            </div>
-          </section>
-        </>
       )
     }
 
@@ -347,15 +284,8 @@ const App = () => {
   return (
       <div className="has-text-centered landing">
         <Navbar/>
-        <hr className='horizontal-line'/>
-        <section className="centered">
-          <Search searchTerm={searchTerm} handleSearchTermChange={handleSearchTermChange} />
-          <div class="field is-grouped is-horizontal-scrollable">
-            <FilterByDayOfWeek filterByDay={filterByDay} setFilterByDay={setFilterByDay} />
-          </div>
-        </section>
-        <hr className='horizontal-line'/>
 
+        <FilterByDayOfWeek filterByDay={filterByDay} setFilterByDay={setFilterByDay} />
 
         {renderPickups(filterByDay)}
 
