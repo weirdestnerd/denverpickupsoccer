@@ -1,4 +1,8 @@
 const PickupCard = ({ field, day, time, address, contact }) => {
+  const addressToString = () => {
+    return Object.values(address).join(', ')
+  }
+
   return (
       <div className="column is-full">
           <div className="card">
@@ -35,13 +39,10 @@ const PickupCard = ({ field, day, time, address, contact }) => {
                       </section>
                       <hr className='horizontal-line'/>
                       <section className="">
-                          <p className="has-text-left is-size-5">Address: {address}</p>
+                          <p className="has-text-left is-size-5">Address: {addressToString()}</p>
                       </section>
                   </div>
               </div>
-              {/*<footer className="card-footer">*/}
-              {/*    <a href="#" className="card-footer-item">Request Change</a>*/}
-              {/*</footer>*/}
           </div>
       </div>
   )

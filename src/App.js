@@ -68,163 +68,273 @@ const Search = ({searchTerm, handleSearchTermChange}) => {
 
 const App = () => {
   const PICKUPS = [
-      {
-          field: 'Village Park',
-          address: '6161 S Jasper Way, Centennial, CO, 80016',
-          time: '12:00 pm',
-          day: 'Sunday',
-          contact: 'Jordan W. Alves'
-      },
-      {
-          field: 'Inifinity Park',
-          address: '4599 E Tennessee Ave, Denver, CO, 80246',
-          time: '5:30 pm',
-          day: 'Friday',
-          contact: 'Edgar Barajas',
-      },
-      {
-          field: 'Village Greens Park',
-          address: '9501 E Union Ave, Englewood, CO, 80111',
-          time: '2:00 pm',
-          day: 'Saturday',
-          contact: 'George Young',
-      },
-      {
-          field: 'Village Greens Park',
-          address: '9501 E Union Ave, Englewood, CO, 80111',
-          time: '12:00 pm',
-          day: 'Thursday',
-          contact: 'Raul Belman',
-          hidden: true,
-      },
-      {
-          field: 'Village Greens Park',
-          address: '9501 E Union Ave, Englewood, CO, 80111',
-          time: '12:00 pm',
-          day: 'Tuesday',
-          contact: 'Raul Belman',
-          hidden: true,
-      },
-      {
-          field: 'Village Greens Park',
-          address: '9501 E Union Ave, Englewood, CO, 80111',
-          time: '12:00 pm',
-          day: 'Friday',
-          contact: 'Raul Belman',
-          hidden: true,
-      },
-      {
-          field: 'Village Greens Park',
-          address: '9501 E Union Ave, Englewood, CO, 80111',
-          time: '1:00 pm',
-          day: 'Sunday',
-          contact: '',
-      },
-      {
-          field: 'Cranmer Park',
-          address: '4300 E Third Ave, Denver, CO, 80220',
-          time: '10:00 am',
-          day: 'Sunday',
-          contact: 'Christopher Wood',
-      },
-      {
-          field: 'Garfield Lake Park',
-          address: '3600 W Mississippi Ave, Denver, CO, 80219',
-          time: '11:00 am',
-          day: 'Saturday',
-          contact: 'Ben Medina',
-      },
-      {
-          field: 'Garfield Lake Park',
-          address: '3600 W Mississippi Ave, Denver, CO, 80219',
-          time: '4:30 pm',
-          day: 'Friday',
-          contact: 'Aric Peterson',
-      },
-      {
-          field: 'Barnum Park',
-          address: '360 Hooker St, Denver, CO, 80219',
-          time: '8:30 am',
-          day: 'Saturday',
-          contact: 'Grant Wilhelmson',
-      },
-      {
-          field: 'Tierra Park',
-          address: '14601 E Jewell Ave, Aurora, CO 80012',
-          time: '9:00 am',
-          day: 'Saturday',
-          contact: 'Sergio David Lopez',
-      },
-      {
-          field: 'Village Park',
-          address: '6161 S Jasper Way, Centennial, CO, 80016',
-          time: '12:00 pm',
-          day: 'Saturday',
-          contact: 'Zim Green',
-      },
-      {
-          field: 'Garfield Lake Park',
-          address: '3600 W Mississippi Ave, Denver, CO, 80219',
-          time: '12:00 pm',
-          day: 'Sunday',
-          contact: 'Cody Peyton',
-      },
-      {
-          field: 'City Park',
-          address: '2001 Colorado Blvd, Denver, CO, 80205',
-          time: '5:30 pm',
-          day: 'Tuesday',
-          contact: 'Tasia Poinsatte',
-      },
-      {
-          field: 'Barnum East Park',
-          address: '500 Federal Blvd, Denver, CO, 80219',
-          time: '8:00 am',
-          day: 'Saturday',
-          contact: 'Grant Wilhelmson',
-      },
-      {
-          field: 'Barnum East Park',
-          address: '500 Federal Blvd, Denver, CO, 80219',
-          time: '9:00 am',
-          day: 'Sunday',
-          contact: 'Grant Wilhelmson',
-      },
-      {
-          field: 'City Park',
-          address: '2001 Colorado Blvd, Denver, CO, 80205',
-          time: '5:00 pm',
-          day: 'Monday',
-          contact: '',
-      },
-      {
-          field: 'City Park',
-          address: '2001 Colorado Blvd, Denver, CO, 80205',
-          time: '5:00 pm',
-          day: 'Wednesday',
-          contact: '',
-      },
-      {
-          field: 'City Park',
-          address: '2001 Colorado Blvd, Denver, CO, 80205',
-          time: '5:00 pm',
-          day: 'Friday',
-          contact: '',
-      },
-      {
-          field: 'Broomfield Commons Williams Field ',
-          address: '13200 Sheridan Blvd, Broomfield, CO, 80020',
-          time: '9:00 am',
-          day: 'Saturday',
-          contact: 'Luis Ramos, Logan Ross',
-      },
-      {
-          field: 'Aspen View Academy',
-          address: '2131 Low Meadow Blvd Castle Rock, CO, 80109',
-          time: '9:00 am',
-          day: 'Saturday',
-          contact: '',
-      },
+  {
+    field: 'Village Park',
+    address: {
+      street: '6161 S Jasper Way',
+      city: 'Centennial',
+      state: 'CO',
+      zip: '80016'
+    },
+    time: '12:00 pm',
+    day: 'Sunday',
+    contact: 'Jordan W. Alves'
+  },
+  {
+    field: 'Inifinity Park',
+    address: {
+      street: '4599 E Tennessee Ave',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80246'
+    },
+    time: '5:30 pm',
+    day: 'Friday',
+    contact: 'Edgar Barajas'
+  },
+  {
+    field: 'Village Greens Park',
+    address: {
+      street: '9501 E Union Ave',
+      city: 'Englewood',
+      state: 'CO',
+      zip: '80111'
+    },
+    time: '2:00 pm',
+    day: 'Saturday',
+    contact: 'George Young'
+  },
+  {
+    field: 'Village Greens Park',
+    address: {
+      street: '9501 E Union Ave',
+      city: 'Englewood',
+      state: 'CO',
+      zip: '80111'
+    },
+    time: '12:00 pm',
+    day: 'Thursday',
+    contact: 'Raul Belman',
+    hidden: true
+  },
+  {
+    field: 'Village Greens Park',
+    address: {
+      street: '9501 E Union Ave',
+      city: 'Englewood',
+      state: 'CO',
+      zip: '80111'
+    },
+    time: '12:00 pm',
+    day: 'Tuesday',
+    contact: 'Raul Belman',
+    hidden: true
+  },
+  {
+    field: 'Village Greens Park',
+    address: {
+      street: '9501 E Union Ave',
+      city: 'Englewood',
+      state: 'CO',
+      zip: '80111'
+    },
+    time: '12:00 pm',
+    day: 'Friday',
+    contact: 'Raul Belman',
+    hidden: true
+  },
+  {
+    field: 'Village Greens Park',
+    address: {
+      street: '9501 E Union Ave',
+      city: 'Englewood',
+      state: 'CO',
+      zip: '80111'
+    },
+    time: '1:00 pm',
+    day: 'Sunday',
+    contact: ''
+  },
+  {
+    field: 'Cranmer Park',
+    address: {
+      street: '4300 E Third Ave',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80220'
+    },
+    time: '10:00 am',
+    day: 'Sunday',
+    contact: 'Christopher Wood'
+  },
+  {
+    field: 'Garfield Lake Park',
+    address: {
+      street: '3600 W Mississippi Ave',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80219'
+    },
+    time: '11:00 am',
+    day: 'Saturday',
+    contact: 'Ben Medina'
+  },
+  {
+    field: 'Garfield Lake Park',
+    address: {
+      street: '3600 W Mississippi Ave',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80219'
+    },
+    time: '4:30 pm',
+    day: 'Friday',
+    contact: 'Aric Peterson'
+  },
+  {
+    field: 'Barnum Park',
+    address: {
+      street: '360 Hooker St',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80219'
+    },
+    time: '8:30 am',
+    day: 'Saturday',
+    contact: 'Grant Wilhelmson'
+  },
+  {
+    field: 'Tierra Park',
+    address: {
+      street: '14601 E Jewell Ave',
+      city: 'Aurora',
+      state: 'CO',
+      zip: '80012'
+    },
+    time: '9:00 am',
+    day: 'Saturday',
+    contact: 'Sergio David Lopez'
+  },
+  {
+    field: 'Village Park',
+    address: {
+      street: '6161 S Jasper Way',
+      city: 'Centennial',
+      state: 'CO',
+      zip: '80016'
+    },
+    time: '12:00 pm',
+    day: 'Saturday',
+    contact: 'Zim Green'
+  },
+  {
+    field: 'Garfield Lake Park',
+    address: {
+      street: '3600 W Mississippi Ave',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80219'
+    },
+    time: '12:00 pm',
+    day: 'Sunday',
+    contact: 'Cody Peyton'
+  },
+  {
+    field: 'City Park',
+    address: {
+      street: '2001 Colorado Blvd',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80205'
+    },
+    time: '5:30 pm',
+    day: 'Tuesday',
+    contact: 'Tasia Poinsatte'
+  },
+  {
+    field: 'Barnum East Park',
+    address: {
+      street: '500 Federal Blvd',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80219'
+    },
+    time: '8:00 am',
+    day: 'Saturday',
+    contact: 'Grant Wilhelmson'
+  },
+  {
+    field: 'Barnum East Park',
+    address: {
+      street: '500 Federal Blvd',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80219'
+    },
+    time: '9:00 am',
+    day: 'Sunday',
+    contact: 'Grant Wilhelmson'
+  },
+  {
+    field: 'City Park',
+    address: {
+      street: '2001 Colorado Blvd',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80205'
+    },
+    time: '5:00 pm',
+    day: 'Monday',
+    contact: ''
+  },
+  {
+    field: 'City Park',
+    address: {
+      street: '2001 Colorado Blvd',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80205'
+    },
+    time: '5:00 pm',
+    day: 'Wednesday',
+    contact: ''
+  },
+  {
+    field: 'City Park',
+    address: {
+      street: '2001 Colorado Blvd',
+      city: 'Denver',
+      state: 'CO',
+      zip: '80205'
+    },
+    time: '5:00 pm',
+    day: 'Friday',
+    contact: ''
+  },
+  {
+    field: 'Broomfield Commons Williams Field ',
+    address: {
+      street: '13200 Sheridan Blvd',
+      city: 'Broomfield',
+      state: 'CO',
+      zip: '80020'
+    },
+    time: '9:00 am',
+    day: 'Saturday',
+    contact: 'Luis Ramos, Logan Ross'
+  },
+  {
+    field: 'Aspen View Academy',
+    address: {
+      street: '2131 Low Meadow Blvd',
+      city: 'Castle Rock',
+      state: 'CO',
+      zip: '80109'
+    },
+    time: '9:00 am',
+    day: 'Saturday',
+    contact: ''
+  }
 ]
   const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
