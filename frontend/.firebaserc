@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "denverpickupsoccer": "denverpickupsoccer"
+  },
+  "targets": {
+    "denverpickupsoccer": {
+      "hosting": {
+        "v2": [
+          "denverpickupsoccer-v2"
+        ]
+      }
+    }
+  }
+}
