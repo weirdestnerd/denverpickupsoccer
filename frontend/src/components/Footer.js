@@ -3,7 +3,7 @@ import FacebookLogo from '../fb_icon.svg';
 const Footer = () => {
   return <footer className='footer level'>
       <div className='level-item has-text-centered'>
-          <p>
+          <p data-testid="author_names">
               <strong>Made by </strong>
               <a href='https://linkedin.com/in/oludavid' target='_blank' rel="noopener noreferrer nofollow">
                   <span className='has-text-success'>Olu </span>
