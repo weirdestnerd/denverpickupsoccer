@@ -4,11 +4,17 @@
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
 jobs:
+  npm_install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm i
   frontend_test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./frontend
+    needs: npm_install
     steps:
       - uses: actions/checkout@v2
       - run: npm test
@@ -17,6 +23,7 @@ jobs:
     defaults:
       run:
         working-directory: ./server
+    needs: npm_install
     steps:
       - uses: actions/checkout@v2
       - run: npm test
@@ -25,9 +32,10 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
+    needs: npm_install
     steps:
       - uses: actions/checkout@v2
-      - run: npm i && npm run build
+      - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
