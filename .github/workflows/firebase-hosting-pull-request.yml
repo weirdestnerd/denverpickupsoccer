@@ -4,6 +4,22 @@
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
 jobs:
+  frontend_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm test
+  server_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm test
   build_and_preview:
     runs-on: ubuntu-latest
     defaults:
