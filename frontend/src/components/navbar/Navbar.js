@@ -1,6 +1,7 @@
 import React from 'react';
 import Logo from '../../logo.png';
 import './navbar.css'
+import LinkToAuth from 'helpers/link_to_auth';
 
 const Navbar = () => {
   return <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -12,9 +13,11 @@ const Navbar = () => {
       </a>
     </div>
     <div className="navbar-actions">
-      <a className="button is-primary mr-2 mt-2" href="/login">
-        Post your pickup
-      </a>
+      <LinkToAuth
+          linkText='Post your pickup'
+          destination='/'
+          className='button is-primary mr-2 mt-2'
+      />
     </div>
   </nav>
 }
