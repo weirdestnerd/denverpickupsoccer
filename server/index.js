@@ -9,6 +9,9 @@ const cookieParser = require('cookie-parser');
 const router = express.Router();
 const cors = require('cors')
 
+// routes imports
+const userRouter = require('./routes/users.js')
+
 // ExpressJS app setup
 const app = express();
 const port = process.env.PORT
@@ -35,7 +38,12 @@ app.use(cookieParser());
 app.set('port', port)
 
 router.get('/api', (request, response) => {
+<<<<<<< HEAD
   response.send({ message: "This is the beginning" })
+=======
+  response.send("This is the beginning")
+>>>>>>> a7a1bb0 (setup server)
 })
 
+app.use('/api/users', userRouter)
 app.listen(port, () => console.log(`App listening at port ${port}`))
