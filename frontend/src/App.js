@@ -1,13 +1,101 @@
-import Navbar from './components/Navbar';
-import HeadingBanner from './components/HeadingBanner';
-import PickupCard from './components/PickupCard';
-import Footer from './components/Footer';
+import Logo from './logo.png';
+import FacebookLogo from './fb_icon.svg';
 import { DateTime, Settings } from 'luxon'
 import { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import {api} from 'services/api';
+// import { createUser } from 'services/user';
 
 Settings.defaultZoneName = 'America/Denver'
+
+const Navbar = () => {
+  return <nav className="navbar" role="navigation" aria-label="main navigation">
+    <div className="navbar-brand">
+      <a className="navbar-item" href="/#">
+        <img src={Logo}
+             alt="logo" width="150"
+             height="30" />
+      </a>
+    </div>
+  </nav>
+}
+
+const PickupCard = ({ field, day, time, address, contact }) => {
+    return (
+        <div className="column is-full">
+            <div className="card">
+                <header className="card-header has-text-centered">
+                    <p className="card-header-title is-capitalized">
+                        {field}
+                    </p>
+                </header>
+                <div className="card-content">
+                    <div className="content">
+                        <section>
+                            <div className="container">
+                                <nav className="level is-mobile">
+                                    <div className="level-item has-text-centered">
+                                        <div>
+                                            <p className="heading">Day</p>
+                                            <p className="subtitle capitalize is-size-5-mobile">{day}</p>
+                                        </div>
+                                    </div>
+                                    <div className="level-item has-text-centered">
+                                        <div>
+                                            <p className="heading">Time</p>
+                                            <p className="subtitle is-size-5-mobile">{time}</p>
+                                        </div>
+                                    </div>
+                                    <div className="level-item has-text-centered">
+                                        <div>
+                                            <p className="heading">Contact</p>
+                                            <p className="subtitle is-size-5-mobile">{contact || 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </section>
+                        <hr className='horizontal-line'/>
+                        <section className="">
+                            <p className="has-text-left is-size-5">Address: {address}</p>
+                        </section>
+                    </div>
+                </div>
+                {/*<footer className="card-footer">*/}
+                {/*    <a href="#" className="card-footer-item">Request Change</a>*/}
+                {/*</footer>*/}
+            </div>
+        </div>
+    )
+}
+
+const Footer = () => {
+    return <footer className='footer level'>
+        <div className='level-item has-text-centered'>
+            <p>
+                <strong>Made by </strong>
+                <a href='https://linkedin.com/in/oludavid' target='_blank' rel="noopener noreferrer nofollow">
+                    <span className='has-text-success'>Olu </span>
+                </a>
+		&
+		<a href='https://linkedin.com/in/mnaparstek' target='_blank' rel="noopener noreferrer nofollow">
+                    <span className='has-text-success'> Martin</span>
+                </a>
+            </p>
+        </div>
+        <div className='level-item has-text-centered'>
+            <a href="https://www.facebook.com/groups/denverpickupsoccer/?__cft__[0]=AZV9jHuReRSAM-1Lkx50LDVO_vG2l3k4ietNdFSJGJEmQDOV6U3uSZRlmobsUQjOCaFj9_BjxbtXM1K734fDT5Us8DyZcjgJ1U3c17g8q2lIkvT2qyTjvW1K7Vx-ecMPk2kfttwQQiG3W_qYIRz7i_LXD5Lb9Z5pqWFbktUGjmA7o_2hCXHrYW3ThbmWv_IkOOA&amp;__tn__=-UC%2CP-R">
+                For More Games Follow: Denver Pick-Up Soccer
+                <img className="facebook_icon" src={FacebookLogo} alt='Facebook Icon' />
+            </a>
+            {/* <span className="icon"><i className="fab fa-facebook-square fa-lg"></i></span> */}
+        </div>
+    </footer>
+}
+
+const HeadingBanner = ({ text }) => {
+  return <h1 className="is-size-2 is-size-4-mobile has-background-white-ter has-text-left p-4 m-1 is-capitalized">{text}</h1>
+}
 
 const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -43,7 +131,7 @@ const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
 
   return (
       <>
-        <hr className='control'/>
+        <hr className='horizontal-line'/>
         <section className="is-horizontal-scrollable centered">
           {renderButtonForDays()}
         </section>
@@ -52,313 +140,173 @@ const FilterByDayOfWeek = ({ filterByDay, setFilterByDay }) => {
   )
 }
 
-const Search = ({searchTerm, handleSearchTermChange}) => {
-  return(
-      <div className="field">
-        <p className="control">
-          <input className="input is-round"
-                 type='text'
-                 placeholder='Search Anything!'
-                 value = {searchTerm}
-                 onChange = {handleSearchTermChange}
-          />
-        </p>
-      </div>
-  )
-}
-
 const App = () => {
   const PICKUPS = [
-  {
-    field: 'Village Park',
-    address: {
-      street: '6161 S Jasper Way',
-      city: 'Centennial',
-      state: 'CO',
-      zip: '80016'
-    },
-    time: '12:00 pm',
-    day: 'Sunday',
-    contact: 'Jordan W. Alves'
-  },
-  {
-    field: 'Inifinity Park',
-    address: {
-      street: '4599 E Tennessee Ave',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80246'
-    },
-    time: '5:30 pm',
-    day: 'Friday',
-    contact: 'Edgar Barajas'
-  },
-  {
-    field: 'Village Greens Park',
-    address: {
-      street: '9501 E Union Ave',
-      city: 'Englewood',
-      state: 'CO',
-      zip: '80111'
-    },
-    time: '2:00 pm',
-    day: 'Saturday',
-    contact: 'George Young'
-  },
-  {
-    field: 'Village Greens Park',
-    address: {
-      street: '9501 E Union Ave',
-      city: 'Englewood',
-      state: 'CO',
-      zip: '80111'
-    },
-    time: '12:00 pm',
-    day: 'Thursday',
-    contact: 'Raul Belman',
-    hidden: true
-  },
-  {
-    field: 'Village Greens Park',
-    address: {
-      street: '9501 E Union Ave',
-      city: 'Englewood',
-      state: 'CO',
-      zip: '80111'
-    },
-    time: '12:00 pm',
-    day: 'Tuesday',
-    contact: 'Raul Belman',
-    hidden: true
-  },
-  {
-    field: 'Village Greens Park',
-    address: {
-      street: '9501 E Union Ave',
-      city: 'Englewood',
-      state: 'CO',
-      zip: '80111'
-    },
-    time: '12:00 pm',
-    day: 'Friday',
-    contact: 'Raul Belman',
-    hidden: true
-  },
-  {
-    field: 'Village Greens Park',
-    address: {
-      street: '9501 E Union Ave',
-      city: 'Englewood',
-      state: 'CO',
-      zip: '80111'
-    },
-    time: '1:00 pm',
-    day: 'Sunday',
-    contact: ''
-  },
-  {
-    field: 'Cranmer Park',
-    address: {
-      street: '4300 E Third Ave',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80220'
-    },
-    time: '10:00 am',
-    day: 'Sunday',
-    contact: 'Christopher Wood'
-  },
-  {
-    field: 'Garfield Lake Park',
-    address: {
-      street: '3600 W Mississippi Ave',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80219'
-    },
-    time: '11:00 am',
-    day: 'Saturday',
-    contact: 'Ben Medina'
-  },
-  {
-    field: 'Garfield Lake Park',
-    address: {
-      street: '3600 W Mississippi Ave',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80219'
-    },
-    time: '4:30 pm',
-    day: 'Friday',
-    contact: 'Aric Peterson'
-  },
-  {
-    field: 'Barnum Park',
-    address: {
-      street: '360 Hooker St',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80219'
-    },
-    time: '8:30 am',
-    day: 'Saturday',
-    contact: 'Grant Wilhelmson'
-  },
-  {
-    field: 'Tierra Park',
-    address: {
-      street: '14601 E Jewell Ave',
-      city: 'Aurora',
-      state: 'CO',
-      zip: '80012'
-    },
-    time: '9:00 am',
-    day: 'Saturday',
-    contact: 'Sergio David Lopez'
-  },
-  {
-    field: 'Village Park',
-    address: {
-      street: '6161 S Jasper Way',
-      city: 'Centennial',
-      state: 'CO',
-      zip: '80016'
-    },
-    time: '12:00 pm',
-    day: 'Saturday',
-    contact: 'Zim Green'
-  },
-  {
-    field: 'Garfield Lake Park',
-    address: {
-      street: '3600 W Mississippi Ave',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80219'
-    },
-    time: '12:00 pm',
-    day: 'Sunday',
-    contact: 'Cody Peyton'
-  },
-  {
-    field: 'City Park',
-    address: {
-      street: '2001 Colorado Blvd',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80205'
-    },
-    time: '5:30 pm',
-    day: 'Tuesday',
-    contact: 'Tasia Poinsatte'
-  },
-  {
-    field: 'Barnum East Park',
-    address: {
-      street: '500 Federal Blvd',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80219'
-    },
-    time: '8:00 am',
-    day: 'Saturday',
-    contact: 'Grant Wilhelmson'
-  },
-  {
-    field: 'Barnum East Park',
-    address: {
-      street: '500 Federal Blvd',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80219'
-    },
-    time: '9:00 am',
-    day: 'Sunday',
-    contact: 'Grant Wilhelmson'
-  },
-  {
-    field: 'City Park',
-    address: {
-      street: '2001 Colorado Blvd',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80205'
-    },
-    time: '5:00 pm',
-    day: 'Monday',
-    contact: ''
-  },
-  {
-    field: 'City Park',
-    address: {
-      street: '2001 Colorado Blvd',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80205'
-    },
-    time: '5:00 pm',
-    day: 'Wednesday',
-    contact: ''
-  },
-  {
-    field: 'City Park',
-    address: {
-      street: '2001 Colorado Blvd',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80205'
-    },
-    time: '5:00 pm',
-    day: 'Friday',
-    contact: ''
-  },
-  {
-    field: 'Broomfield Commons Williams Field ',
-    address: {
-      street: '13200 Sheridan Blvd',
-      city: 'Broomfield',
-      state: 'CO',
-      zip: '80020'
-    },
-    time: '9:00 am',
-    day: 'Saturday',
-    contact: 'Luis Ramos, Logan Ross'
-  },
-  {
-    field: 'Aspen View Academy',
-    address: {
-      street: '2131 Low Meadow Blvd',
-      city: 'Castle Rock',
-      state: 'CO',
-      zip: '80109'
-    },
-    time: '9:00 am',
-    day: 'Saturday',
-    contact: ''
-  }
+      {
+          field: 'Village Park',
+          address: '6161 S Jasper Way, Centennial, CO, 80016',
+          time: '12:00 pm',
+          day: 'Sunday',
+          contact: 'Jordan W. Alves'
+      },
+      {
+          field: 'Inifinity Park',
+          address: '4599 E Tennessee Ave, Denver, CO, 80246',
+          time: '5:30 pm',
+          day: 'Friday',
+          contact: 'Edgar Barajas',
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO, 80111',
+          time: '2:00 pm',
+          day: 'Saturday',
+          contact: 'George Young',
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO, 80111',
+          time: '12:00 pm',
+          day: 'Thursday',
+          contact: 'Raul Belman',
+          hidden: true,
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO, 80111',
+          time: '12:00 pm',
+          day: 'Tuesday',
+          contact: 'Raul Belman',
+          hidden: true,
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO, 80111',
+          time: '12:00 pm',
+          day: 'Friday',
+          contact: 'Raul Belman',
+          hidden: true,
+      },
+      {
+          field: 'Village Greens Park',
+          address: '9501 E Union Ave, Englewood, CO, 80111',
+          time: '1:00 pm',
+          day: 'Sunday',
+          contact: '',
+      },
+      {
+          field: 'Cranmer Park',
+          address: '4300 E Third Ave, Denver, CO, 80220',
+          time: '10:00 am',
+          day: 'Sunday',
+          contact: 'Christopher Wood',
+      },
+      {
+          field: 'Garfield Lake Park',
+          address: '3600 W Mississippi Ave, Denver, CO, 80219',
+          time: '11:00 am',
+          day: 'Saturday',
+          contact: 'Ben Medina',
+      },
+      {
+          field: 'Garfield Lake Park',
+          address: '3600 W Mississippi Ave, Denver, CO, 80219',
+          time: '4:30 pm',
+          day: 'Friday',
+          contact: 'Aric Peterson',
+      },
+      {
+          field: 'Barnum Park',
+          address: '360 Hooker St, Denver, CO, 80219',
+          time: '8:30 am',
+          day: 'Saturday',
+          contact: 'Grant Wilhelmson',
+      },
+      {
+          field: 'Tierra Park',
+          address: '14601 E Jewell Ave, Aurora, CO 80012',
+          time: '9:00 am',
+          day: 'Saturday',
+          contact: 'Sergio David Lopez',
+      },
+      {
+          field: 'Village Park',
+          address: '6161 S Jasper Way, Centennial, CO, 80016',
+          time: '12:00 pm',
+          day: 'Saturday',
+          contact: 'Zim Green',
+      },
+      {
+          field: 'Garfield Lake Park',
+          address: '3600 W Mississippi Ave, Denver, CO, 80219',
+          time: '12:00 pm',
+          day: 'Sunday',
+          contact: 'Cody Peyton',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5:30 pm',
+          day: 'Tuesday',
+          contact: 'Tasia Poinsatte',
+      },
+      {
+          field: 'Barnum East Park',
+          address: '500 Federal Blvd, Denver, CO, 80219',
+          time: '8:00 am',
+          day: 'Saturday',
+          contact: 'Grant Wilhelmson',
+      },
+      {
+          field: 'Barnum East Park',
+          address: '500 Federal Blvd, Denver, CO, 80219',
+          time: '9:00 am',
+          day: 'Sunday',
+          contact: 'Grant Wilhelmson',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5:00 pm',
+          day: 'Monday',
+          contact: '',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5:00 pm',
+          day: 'Wednesday',
+          contact: '',
+      },
+      {
+          field: 'City Park',
+          address: '2001 Colorado Blvd, Denver, CO, 80205',
+          time: '5:00 pm',
+          day: 'Friday',
+          contact: '',
+      },
+      {
+          field: 'Broomfield Commons Williams Field ',
+          address: '13200 Sheridan Blvd, Broomfield, CO, 80020',
+          time: '9:00 am',
+          day: 'Saturday',
+          contact: 'Luis Ramos, Logan Ross',
+      },
+      {
+          field: 'Aspen View Academy',
+          address: '2131 Low Meadow Blvd Castle Rock, CO, 80109',
+          time: '9:00 am',
+          day: 'Saturday',
+          contact: '',
+      },
 ]
   const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
   const [filterByDay, setFilterByDay] = useState(null)
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearchTermChange = event => {
-    setSearchTerm(event.target.value);
-  };
-
-  const filteredPickups = PICKUPS.filter(pickup => {
-    for (let property in pickup) {
-      let attribute = pickup[property];
-      let attributeIsSubsetOfSearchTerm = attribute.toString().toLowerCase().includes(searchTerm.toLowerCase());
-      if ((typeof attribute !== 'boolean') && (attributeIsSubsetOfSearchTerm)) return true;
-    }
-    return false;
-  });
 
   useEffect(() => {
     api()
-    .then(response => response.json())
-    .then(data => console.log(data))
+    .then(console.log)
     .catch(console.error)
   })
 
@@ -373,12 +321,6 @@ const App = () => {
     if (firstDay === 'Saturday' && secondDay === 'Sunday') return -1
     if (firstDay === 'Sunday' && secondDay === 'Saturday') return 1
     return WEEKDAYS.indexOf(firstDay) - WEEKDAYS.indexOf(secondDay)
-  }
-
-  const renderSearchResultsByDayOfTheWeek = (weekday, search) => {
-    const pickupSearchHappeningOnDay = search.filter(pickup => (pickup.day === weekday) && !pickup.hidden);
-    if (pickupSearchHappeningOnDay.length === 0) return <p>No pickups</p>
-    return pickupSearchHappeningOnDay.map(pickup => <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>)
   }
 
   const renderPickupsByDayOfTheWeek = (weekday) => {
@@ -396,34 +338,6 @@ const App = () => {
   const renderPickups = (filterByDay) => {
     const today = WEEKDAYS[DateTime.local().weekday]
     const tomorrow = WEEKDAYS[DateTime.local().plus({ days: 1 }).weekday]
-
-    if (filterByDay && searchTerm) {
-      return (
-          <>
-            <HeadingBanner text={`Showing pickups for ${searchTerm} on ${filterByDay}`}/>
-            <section className="container section">
-              <div className="columns is-multiline is-mobile">
-                {renderSearchResultsByDayOfTheWeek(filterByDay, filteredPickups)}
-              </div>
-            </section>
-          </>
-      )
-    }
-
-    if (searchTerm) {
-      return (
-          <>
-            <HeadingBanner text={`Showing pickups for ${searchTerm}`}/>
-            <section className="container section">
-              <div className="columns is-multiline is-mobile">
-                {filteredPickups.map(pickup => (
-                    <PickupCard field={pickup.field} address={pickup.address} time={pickup.time} day={pickup.day} contact={pickup.contact}/>
-                ))}
-              </div>
-            </section>
-          </>
-      )
-    }
 
     if (filterByDay) {
       return (
@@ -465,16 +379,8 @@ const App = () => {
   return (
       <div className="has-text-centered landing">
         <Navbar/>
-        <hr className='horizontal-line'/>
-        <section className="centered">
-          <Search searchTerm={searchTerm}
-                  handleSearchTermChange={handleSearchTermChange}/>
-          <div className="field is-grouped is-horizontal-scrollable">
-            <FilterByDayOfWeek filterByDay={filterByDay}
-                               setFilterByDay={setFilterByDay}/>
-          </div>
-        </section>
-        <hr className='horizontal-line'/>
+
+        <FilterByDayOfWeek filterByDay={filterByDay} setFilterByDay={setFilterByDay} />
 
         {renderPickups(filterByDay)}
 
