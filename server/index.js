@@ -38,11 +38,7 @@ app.use(cookieParser());
 app.set('port', port)
 
 router.get('/api', (request, response) => {
-<<<<<<< HEAD
   response.send({ message: "This is the beginning" })
-=======
-  response.send("This is the beginning")
->>>>>>> a7a1bb0 (setup server)
 })
 
 app.use('/api/users', userRouter)
