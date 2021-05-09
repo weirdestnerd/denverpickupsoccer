@@ -25,4 +25,8 @@ const getCurrentUser = async (callback) => {
   await firebase.auth().onAuthStateChanged(callback);
 }
 
-export { signInUser, createNewUser, getCurrentUser }
+const signOutUser = () => {
+  return firebase.auth().signOut()
+}
+
+export { signInUser, createNewUser, getCurrentUser, signOutUser }

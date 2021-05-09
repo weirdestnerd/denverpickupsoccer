@@ -6,12 +6,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Auth from './components/Auth';
+import { UserProvider } from 'contexts/UserProvider';
+import Dashboard from 'components/dashboard/Dashboard';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Switch>
         <Route path="/authenticate" component={Auth} />
+        <Route path="/dashboard">
+          <UserProvider>
+            <Dashboard />
+          </UserProvider>
+        </Route>
         <Route path="/">
           <App />
         </Route>
